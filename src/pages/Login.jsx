@@ -182,12 +182,17 @@ export default function Login() {
 
           <GoogleSignInButton setError={setError} />
 
+          {/* 🌟 THE NEW SIGNUP LINK IS RIGHT HERE */}
           <div className="mt-8 text-center">
             <p className="text-sm text-stone-500 font-medium">
               Don't have an account?{' '}
-              <a href="#" className="text-[#2D6A4F] font-bold hover:underline">
-                Contact Admin
-              </a>
+              <button 
+                type="button"
+                onClick={() => navigate('/signup')} 
+                className="text-[#2D6A4F] font-bold hover:underline"
+              >
+                Sign up here
+              </button>
             </p>
           </div>
         </div>

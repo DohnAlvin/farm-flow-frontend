@@ -15,12 +15,12 @@ const GoogleSignInButton = ({ setError }) => {
       setError('');
       
       try {
-        // Send Google's access token to our Django backend
+        // ✅ FULL URL USED HERE - Perfect for Vercel
         const res = await axios.post('https://farmflow-api-s521.onrender.com/api/auth/google/', {
           access_token: tokenResponse.access_token,
         });
 
-        // Safely grab the JWTs (handling both common naming conventions)
+        // Safely grab the JWTs
         const data = res.data;
         const accessToken = data.access || data.access_token;
         const refreshToken = data.refresh || data.refresh_token;
@@ -29,13 +29,13 @@ const GoogleSignInButton = ({ setError }) => {
         localStorage.setItem('access_token', accessToken);
         localStorage.setItem('refresh_token', refreshToken);
         
-        // Success! Force a clean reload to the dashboard so AuthContext catches the token
+        // Success! Force a clean reload to the dashboard
         window.location.href = '/';
 
       } catch (err) {
         console.error("Django Google Auth Error:", err);
         setError('Failed to authenticate with the server. Please try again.');
-        setIsGoogleLoading(false); // Only stop loading if there's an error
+        setIsGoogleLoading(false);
       }
     },
     onError: (error) => {
@@ -55,7 +55,6 @@ const GoogleSignInButton = ({ setError }) => {
         <Loader2 className="w-5 h-5 animate-spin text-stone-400" />
       ) : (
         <>
-          {/* Standard Google "G" Logo */}
           <svg className="w-5 h-5" viewBox="0 0 24 24">
             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
             <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
@@ -76,6 +75,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   
+  // 🚨 This login function is where your standard email/password API call actually happens!
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -86,26 +86,21 @@ export default function Login() {
 
     try {
       await login(email, password);
-      // Removed navigate('/') here because AuthContext now forces a full page reload anyway
     } catch (err) {
       setError('Invalid email or password. Please try again.');
-      setIsLoading(false); // Only set to false on error, let the page reload handle success
+      setIsLoading(false); 
     }
   };
 
   return (
-    // Wrap the entire page in the Google Provider using your exact Client ID
     <GoogleOAuthProvider clientId="597004883813-sqvjed0oi970vv1ikjidq29pqcp3j6np.apps.googleusercontent.com">
       <div className="min-h-screen bg-[#143023] flex items-center justify-center p-4 relative overflow-hidden font-sans">
         
-        {/* Decorative Background Elements */}
         <div className="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-[#1B4332] rounded-full mix-blend-screen filter blur-[100px] opacity-70"></div>
         <div className="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-[#2D6A4F] rounded-full mix-blend-screen filter blur-[100px] opacity-50"></div>
 
-        {/* Main Login Card */}
         <div className="w-full max-w-md bg-white rounded-[2.5rem] p-8 md:p-10 shadow-2xl relative z-10 border border-white/20">
           
-          {/* Header / Logo */}
           <div className="flex flex-col items-center mb-10">
             <div className="w-16 h-16 bg-gradient-to-br from-[#E9F5E9] to-[#C8E6C9] rounded-2xl flex items-center justify-center mb-4 shadow-sm border border-green-100">
               <Sprout className="w-8 h-8 text-[#2D6A4F]" />
@@ -114,16 +109,13 @@ export default function Login() {
             <p className="text-[#2D6A4F] font-semibold tracking-wide mt-1">Smart Agriculture</p>
           </div>
 
-          {/* Error Message Display */}
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-100 rounded-2xl text-red-600 text-sm font-medium text-center transition-all">
               {error}
             </div>
           )}
 
-          {/* Login Form */}
           <form onSubmit={handleLogin} className="space-y-5">
-            {/* Email Field */}
             <div className="space-y-2">
               <label className="text-sm font-bold text-stone-700 ml-1">Email or Username</label>
               <div className="relative">
@@ -141,7 +133,6 @@ export default function Login() {
               </div>
             </div>
 
-            {/* Password Field */}
             <div className="space-y-2">
               <div className="flex items-center justify-between ml-1">
                 <label className="text-sm font-bold text-stone-700">Password</label>
@@ -164,7 +155,6 @@ export default function Login() {
               </div>
             </div>
 
-            {/* Standard Submit Button */}
             <button
               type="submit"
               disabled={isLoading}
@@ -181,7 +171,6 @@ export default function Login() {
             </button>
           </form>
 
-          {/* Divider */}
           <div className="mt-8 mb-6 relative">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-stone-200"></div>
@@ -191,10 +180,8 @@ export default function Login() {
             </div>
           </div>
 
-          {/* The New Google Login Button */}
           <GoogleSignInButton setError={setError} />
 
-          {/* Footer */}
           <div className="mt-8 text-center">
             <p className="text-sm text-stone-500 font-medium">
               Don't have an account?{' '}

@@ -3,10 +3,12 @@
  * Standardizes all requests to the Django backend and handles silent JWT refreshing.
  */
 
-const API_BASE = '/api';
+// ✅ THE MAGIC FIX: Replaced the local '/api' with the full live Render URL!
+const API_BASE = 'https://farmflow-api-s521.onrender.com/api';
 
 export const api = {
   async request(endpoint, options = {}) {
+    // This will now correctly build: https://farmflow-api-s521.onrender.com/api/users/me/
     const url = `${API_BASE}${endpoint}`;
     
     // 🔐 1. Grab the VIP wristband (JWT token) from Local Storage

@@ -63,7 +63,8 @@ export const AuthProvider = ({ children }) => {
     try {
       setAuthError(null);
       
-      const response = await fetch('/api/token/', {
+      // ✅ FULL RENDER URL ADDED HERE!
+      const response = await fetch('https://farmflow-api-s521.onrender.com/api/token/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username, password })

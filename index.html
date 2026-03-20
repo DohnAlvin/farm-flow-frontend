@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    
+    <meta name="theme-color" content="#1B4332" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <title>FarmFlow | Agricultural Intelligence</title>
+    <meta name="description" content="Precision farm management, weather forecasting, and livestock tracking." />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+
+    <style>
+      /* Prevent FOUC (Flash of Unstyled Content) 
+         Ensures the background matches your Stone/Cream theme 
+         immediately before React hydrates.
+      */
+      body {
+        background-color: #FEFAE0; 
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+
+      /* 🐄 Simple pre-loader to maintain the premium feel */
+      #initial-loader {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #FEFAE0;
+        z-index: 9999;
+        transition: opacity 0.5s ease-out;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="initial-loader">
+       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1B4332" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;">
+         <path d="M7 20h10" />
+         <path d="M10 20c5.5-3 5.5-13 0-16" />
+         <path d="M14 20c-5.5-3-5.5-13 0-16" />
+       </svg>
+    </div>
+
+    <div id="root"></div>
+    
+    <script type="module" src="/src/main.jsx"></script>
+
+    <script>
+      // Remove loader once React has started mounting
+      window.addEventListener('load', () => {
+        const loader = document.getElementById('initial-loader');
+        if (loader) {
+          loader.style.opacity = '0';
+          setTimeout(() => loader.remove(), 500);
+        }
+      });
+    </script>
+
+    <style>
+      @keyframes pulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: .5; transform: scale(1.1); }
+      }
+    </style>
+  </body>
+</html>

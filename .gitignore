@@ -1,0 +1,49 @@
+# --- Environment / Secrets ---
+.env
+*.env
+.env.local
+.env.*.local
+db.sqlite3
+secrets.json
+
+# --- Frontend Dependencies & Build ---
+node_modules/
+dist/
+dist-ssr/
+*.generated.*
+.vite
+.temp
+
+# --- Python / Django ---
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+ENV/
+.venv/
+*.bak
+*.swp
+
+# --- Media & Static (Django) ---
+# Don't track user-uploaded media or gathered static files in production
+media/
+staticfiles/
+
+# --- Logs ---
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# --- Editor / OS ---
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Testing ---
+coverage/
+.nyc_output

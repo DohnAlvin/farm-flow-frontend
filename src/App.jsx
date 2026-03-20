@@ -12,8 +12,9 @@ import UserNotRegisteredError from "@/components/UserNotRegisteredError";
 import PageNotFound from './lib/PageNotFound';
 import { Loader2 } from "lucide-react";
 
-// 🔑 IMPORT YOUR LOGIN PAGE HERE
+// 🔑 IMPORT YOUR PUBLIC PAGES HERE
 import Login from './pages/Login'; 
+import Signup from './pages/Signup'; 
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -93,8 +94,9 @@ function App() {
         {/* Added the future flags here to silence the React Router v7 warnings */}
         <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <Routes>
-            {/* 🚪 UNPROTECTED ROUTE: Bypasses the auth guard so users can actually log in */}
+            {/* 🚪 UNPROTECTED ROUTES: Bypasses the auth guard so users can sign up and log in */}
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
             
             {/* 🚜 PROTECTED APP: Everything else runs through your existing guard */}
             <Route path="/*" element={<AuthenticatedApp />} />

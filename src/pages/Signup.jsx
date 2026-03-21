@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Sprout, Mail, Lock, ArrowRight, Loader2, UserPlus } from 'lucide-react';
-import { api } from '../lib/api'; 
+import axios from 'axios'; // 🌟 ADDED AXIOS IMPORT
 
 export default function Signup() {
   const [email, setEmail] = useState('');
@@ -27,9 +27,8 @@ export default function Signup() {
     }
 
     try {
-      // 2. Send the exact payload dj-rest-auth expects
-      // Note: Check your Django urls.py. If your auth base is different, adjust this endpoint!
-      await api.post('/auth/registration/', {
+      // 🌟 FIX: Using explicit axios call with the full Render URL
+      await axios.post('https://farmflow-api-s521.onrender.com/api/auth/registration/', {
         email: email,
         password1: password,
         password2: confirmPassword
@@ -45,8 +44,11 @@ export default function Signup() {
 
     } catch (err) {
       console.error("Signup Error:", err);
-      // api.js throws the error message, so we can just display it safely
-      setError(err.message || 'Failed to create account. This email may already exist.');
+      // Safely grab the error message from Axios
+      const errorMessage = err.response?.data?.email?.[0] 
+        || err.response?.data?.detail 
+        || 'Failed to create account. This email may already exist.';
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }

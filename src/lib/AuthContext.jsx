@@ -59,7 +59,8 @@ export const AuthProvider = ({ children }) => {
     checkUserAuth();
   }, [checkUserAuth]);
 
-  const login = async (username, password) => {
+  // 🐛 FIX 4: Changed 'username' to 'email' in the function arguments
+  const login = async (email, password) => {
     try {
       setAuthError(null);
       
@@ -67,16 +68,17 @@ export const AuthProvider = ({ children }) => {
       const response = await fetch('https://farmflow-api-s521.onrender.com/api/token/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password })
+          // 🐛 FIX 5: Sending 'email' to match Django's Custom User Model!
+          body: JSON.stringify({ email, password })
       });
 
       if (!response.ok) {
-          throw new Error("Invalid username or password");
+          throw new Error("Invalid email or password");
       }
 
       const data = await response.json();
 
-      // 🐛 FIX 4: Support both `access` and `access_token` naming conventions
+      // Support both `access` and `access_token` naming conventions
       const accessToken = data.access || data.access_token;
       const refreshToken = data.refresh || data.refresh_token;
 
